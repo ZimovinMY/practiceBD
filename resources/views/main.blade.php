@@ -46,81 +46,319 @@
                                 </v-row>
 
                             </template>
-                            <template v-slot:expanded-item="{ item }">
+                            <template v-slot:expanded-item="{ headers, item }">
                                 <td :colspan="headers.length">
                                     <v-divider></v-divider>
                                     <b><h6>Расширенная информация об организации</h6></b>
-                                    <!-- More info about { item.human_name } -->
+                                    <v-btn
+                                        @click = "ShowItems(item)">
+                                        Показать филиалы
+                                    </v-btn>
                                     <v-row>
                                         <v-col
-                                            cols="12"
-                                            sm="6"
-                                            md="4"
-                                            lg="3">
+                                            md="5">
                                             <v-card>
                                                 <v-list dense>
                                                     <v-list-item>
-                                                        <v-list-item-content>Calories:</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
+                                                        <v-list-item-content>Код головной организации</v-list-item-content>
                                                             1
                                                         </v-list-item-content>
+                                                        <v-list-item-content class="align-end">
                                                     </v-list-item>
 
                                                     <v-list-item>
-                                                        <v-list-item-content>Fat:</v-list-item-content>
+                                                        <v-list-item-content>Код организации</v-list-item-content>
                                                         <v-list-item-content class="align-end">
                                                             2
                                                         </v-list-item-content>
                                                     </v-list-item>
 
                                                     <v-list-item>
-                                                        <v-list-item-content>Carbs:</v-list-item-content>
+                                                        <v-list-item-content>Код ЦГЗГУ</v-list-item-content>
                                                         <v-list-item-content class="align-end">
                                                             3
                                                         </v-list-item-content>
                                                     </v-list-item>
 
                                                     <v-list-item>
-                                                        <v-list-item-content>Protein:</v-list-item-content>
+                                                        <v-list-item-content>Код ГИВЦ</v-list-item-content>
                                                         <v-list-item-content class="align-end">
                                                             4
                                                         </v-list-item-content>
                                                     </v-list-item>
 
                                                     <v-list-item>
-                                                        <v-list-item-content>Sodium:</v-list-item-content>
+                                                        <v-list-item-content>Номер по распоряжению</v-list-item-content>
                                                         <v-list-item-content class="align-end">
                                                             5
                                                         </v-list-item-content>
                                                     </v-list-item>
 
                                                     <v-list-item>
-                                                        <v-list-item-content>Calcium:</v-list-item-content>
+                                                        <v-list-item-content>Код РУБПНУБП</v-list-item-content>
                                                         <v-list-item-content class="align-end">
                                                             6
                                                         </v-list-item-content>
                                                     </v-list-item>
 
                                                     <v-list-item>
-                                                        <v-list-item-content>Iron:</v-list-item-content>
+                                                        <v-list-item-content>Номер реестровой записи РУБПНУБП</v-list-item-content>
                                                         <v-list-item-content class="align-end">
                                                             7
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>ИНН</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            8
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>КПП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            9
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Код главы по БК</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            10
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Наименование главы по БК</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            11
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Полное наименование по ЕГРЮЛ</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            12
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Краткое наименование по ЕГРЮЛ</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            13
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Аббревиатура</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            14
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Наименование для отчётов</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            15
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Код статуса по ЕГРЮЛ</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            16
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Статус по ЕГРЮЛ</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            17
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Код статуса организации по РУБПНУБП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            18
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Статус организации по РУБПНУБП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            19
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Код уровня по РУБПНУБП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            20
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Уровень по РУБПНУБП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            21
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Код региона организации по ЕГРЮЛ</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            22
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Регион организации по ЕГРЮЛ</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            23
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Код региона головной организации по ЕГРЮЛ</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            24
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Регион головной организации по ЕГРЮЛ</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            25
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>ОКТМО по РУБПНУБП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            26
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Учредитель по ЕГРЮЛ</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            27
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Код основного ОКВЭД по ЕГРЮЛ</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            28
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Наименование основного ОКВЭД по ЕГРЮЛ</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            29
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Код типа организации по РУБПНУБП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            30
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Тип организации по РУБПНУБП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            31
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Код типа учреждения по РУБПНУБП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            32
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Тип учреждения по РУБПНУБП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            33
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Код уровня бюджета по РУБПНУБП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            34
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Уровень бюджета по РУБПНУБП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            35
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Код ОКФС по РУБПНУБП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            36
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Наименование ОКФС по РУБПНУБП</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            37
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Типизация</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            38
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Направленность</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            39
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Адрес</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            40
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Дата создания ЮЛ ЕГРЮЛ</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            41
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Дата прекращения деятельности ЮЛ ЕГРЮЛ</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            42
                                                         </v-list-item-content>
                                                     </v-list-item>
                                                 </v-list>
                                             </v-card>
                                         </v-col>
                                     </v-row>
-
-                                    <br>
-                                    <v-btn
-                                        @click = "ShowItems(item)">
-                                        Показать филиалы
-                                    </v-btn>
                                     <v-divider></v-divider>
                                 </td>
                             </template>
-
                         </v-data-table>
                         <v-card-actions>
                             <v-btn
@@ -145,6 +383,86 @@
                         </v-btn>
                     </v-card-text>
                 </v-card>
+
+                <v-dialog
+                    v-model="dialog_delete"
+                    max-width="500"
+                >
+                    <v-card>
+                        <v-card-title class="text-h5 grey lighten-2">
+                            Подтвердите удаление
+                        </v-card-title>
+                        <br>
+                        <v-card-text>
+                            Вся информация связанная с данной организацией будет удалена. Вы действительно хотите удалить организацию?
+                        </v-card-text>
+
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+
+                            <v-btn
+                                color="red darken-1"
+                                text
+                                @click="dialog_delete = false"
+                            >
+                                Отмена
+                            </v-btn>
+
+                            <v-btn
+                                color="primary"
+                                text
+                                @click="CheckBranch"
+                            >
+                                Удалить
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+
+                <v-dialog
+                    v-model="delete_branch"
+                    max-width="500"
+                >
+                    <v-card>
+                        <v-card-title class="text-h5 grey lighten-2">
+                            Удалить филиалы организации?
+                        </v-card-title>
+                        <br>
+                        <v-card-text>
+                            Данная организация - головная. Хотите удалить ее филиалы?
+                        </v-card-text>
+
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+
+                            <v-btn
+                                color="red darken-1"
+                                text
+                                @click="delete_branch = false"
+                            >
+                                Отмена
+                            </v-btn>
+
+                            <v-btn
+                                color="primary"
+                                text
+                                @click="DeleteONE"
+                            >
+                                Нет
+                            </v-btn>
+
+                            <v-btn
+                                color="primary"
+                                text
+                                @click="DeleteALL"
+                            >
+                                Да
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
             </v-main>
         </v-app>
     </div>
@@ -159,9 +477,14 @@
             data(){
                 return{
                     search: '',
+                    kod_org: '',
+                    level_org: '',
                     selected: [],
                     expanded: [],
                     show_tables_info: [],
+                    dialog_delete: false,
+                    dialog_change: false,
+                    delete_branch: false,
                     headers: [
                         { text: '', value: 'data-table-expand' },
                         {
@@ -198,11 +521,46 @@
                             this.show_tables_info = data
                         })
                 },
-                ShowItems(item){
-                    console.log(item.name_human)
+                ShowDialogDelete(item){//диалог на удаление
+                    this.kod_org=item.idlistedu
+                    this.level_org=item.level
+                    this.dialog_delete=true
                 },
-                ShowItem(item){
-                    console.log(item.name_human)
+                ShowDialogChange(item){//диалог на изменение
+                    this.kod_org=item.idlistedu
+                    this.dialog_change=true
+                },
+                CheckBranch(){
+                    if (this.level_org == 'Головное'){
+                        this.delete_branch=true
+                    }
+                    else{
+                        this.DeleteONE();
+                    }
+                },
+                async DeleteONE(){
+                    let data=new FormData()
+                    data.append('kod_org',this.kod_org)
+                     await fetch('DeleteDataONE',{
+                        method:'post',
+                        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        body:data
+                    })
+                    this.delete_branch=false;
+                    this.dialog_delete=false;
+                    this.ShowUnitedTable();
+                },
+                async DeleteALL(){
+                    let data=new FormData()
+                    data.append('kod_org',this.kod_org)
+                    await fetch('DeleteDataALL',{
+                        method:'post',
+                        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        body:data
+                    })
+                    this.delete_branch=false;
+                    this.dialog_delete=false;
+                    this.ShowUnitedTable();
                 },
             },
             mounted: function (){//предзапуск функций

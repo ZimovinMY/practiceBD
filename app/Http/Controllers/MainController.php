@@ -16,4 +16,14 @@ class MainController extends Controller
         FROM down1_1");
         return json_encode($query);
     }
+
+    public function DeleteDataONE(Request $request) {/*функция возврата на главную*/
+        $kod_org=$request->input('kod_org');
+        DB::table('down1_1')->where('idlistedu', '=', $kod_org)->delete();
+    }
+
+    public function DeleteDataALL(Request $request) {/*функция возврата на главную*/
+        $kod_org=$request->input('kod_org');
+        DB::table('down1_1')->where('id_parent', '=', $kod_org)->delete();
+    }
 }
