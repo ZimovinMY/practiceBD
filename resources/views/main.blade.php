@@ -7,6 +7,41 @@
     <div id="MainPage">
         <v-app>
             <v-main>
+                <v-row>
+                    <v-col sm="4">
+                        <h5 style="margin-left: 15px" class="text-primary"><p>Введите регион организации</p></h5>
+                        <v-autocomplete
+                            no-data-text="Нет данных для выбора"
+                            solo
+                            label="Введите регион организации"
+                            v-model = "region"
+                            :items = "selection_region"
+                            clearable>
+                        </v-autocomplete>
+                        <h5 style="margin-left: 15px" class="text-primary"><p>Выберите уровень организации</p></h5>
+                        <v-select
+                            no-data-text="Нет данных для выбора"
+                            solo
+                            label="Выберите уровень организации"
+                            v-model = "level"
+                            :items = "selection_level"
+                            clearable>
+                        </v-select>
+                    </v-col>
+                </v-row>
+                <v-btn
+                    color="primary"
+                    text
+                    @click="ShowFilteredTable">
+                    Отфильтровать
+                </v-btn>
+                <v-btn
+                    color="red darken-1"
+                    text
+                    @click="ResetTable">
+                    Сбросить фильтры
+                </v-btn>
+                <v-divider></v-divider>
                 <v-card>
                     <v-card-text>
                         <v-text-field
@@ -365,7 +400,7 @@
                                 block
                                 depressed
                                 class="transparent font-weight-bold grey--text pa-2 d-flex align-center"
-                                icon @click="ShowDialogAdd()"
+                                icon @click="ShowDialogAdd"
                             >
                                 <v-icon>
                                     mdi-plus
@@ -463,6 +498,59 @@
                     </v-card>
                 </v-dialog>
 
+                <v-dialog
+                    v-model="dialog_change"
+                    width="700"
+                >
+                    <v-card>
+                        <v-card-title class="text-h5 grey lighten-2">
+                            Изменение данных
+                        </v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                color="red darken-1"
+                                text
+                                @click="dialog_change = false">
+                                Отмена
+                            </v-btn>
+                            <v-btn
+                                color="primary"
+                                text
+                                @click="">
+                                Изменить
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+                <v-dialog
+                    v-model="dialog_add"
+                    width="700"
+                >
+                    <v-card>
+                        <v-card-title class="text-h5 grey lighten-2">
+                            Добавление данных
+                        </v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                color="red darken-1"
+                                text
+                                @click="dialog_add = false">
+                                Отмена
+                            </v-btn>
+                            <v-btn
+                                color="primary"
+                                text
+                                @click="">
+                                Добавить
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             </v-main>
         </v-app>
     </div>
@@ -476,6 +564,10 @@
             vuetify: new Vuetify(),
             data(){
                 return{
+                    selection_region:[],
+                    selection_level:[],
+                    region:'',
+                    level:'',
                     search: '',
                     kod_org: '',
                     level_org: '',
@@ -484,6 +576,7 @@
                     show_tables_info: [],
                     dialog_delete: false,
                     dialog_change: false,
+                    dialog_add: false,
                     delete_branch: false,
                     headers: [
                         { text: '', value: 'data-table-expand' },
@@ -508,6 +601,32 @@
                 }
             },
             methods:{
+                ResetTable(){
+                    this.show_tables_info = this.show_tables_info_
+                },
+                ShowSelectionRegion(){
+                    let data = new FormData()
+                    fetch('GetTableRegion',{
+                        method:'GET',
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    })
+                        .then((response)=>{
+                            return response.json()
+                        })
+                        .then((data)=>{
+                            this.selection_region = data.map(({ region }) => region)
+                            this.selection_level = data.map(({ level }) => level)
+                        })
+                },
+                ShowFilteredTable(){
+                    this.show_tables_info = this.show_tables_info_
+                    if (this.region){
+                        this.show_tables_info = this.show_tables_info.filter(data => data.region == this.region)
+                    }
+                    if (this.level){
+                        this.show_tables_info = this.show_tables_info.filter(data => data.level == this.level)
+                    }
+                },
                 async ShowUnitedTable(){//Запрос на данные из таблиц
                     this.show_tables_info_ = []
                     await fetch('ShowUnitedTable',{
@@ -518,8 +637,13 @@
                             return response.json()
                         })
                         .then((data)=>{
-                            this.show_tables_info = data
+                            this.show_tables_info_ = data
+                            this.show_tables_info = this.show_tables_info_
                         })
+                },
+                ShowDialogAdd(){
+                    //присвоение переменным
+                    this.dialog_add=true
                 },
                 ShowDialogDelete(item){//диалог на удаление
                     this.kod_org=item.idlistedu
@@ -527,7 +651,7 @@
                     this.dialog_delete=true
                 },
                 ShowDialogChange(item){//диалог на изменение
-                    this.kod_org=item.idlistedu
+                    //присвоение переменным
                     this.dialog_change=true
                 },
                 CheckBranch(){
@@ -565,6 +689,7 @@
             },
             mounted: function (){//предзапуск функций
                 this.ShowUnitedTable();
+                this.ShowSelectionRegion();
             }
         })
     </script>
