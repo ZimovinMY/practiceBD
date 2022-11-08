@@ -3,54 +3,196 @@
 @section('title')Главная страница@endsection
 
 @section('content')
-
     <div id="MainPage">
         <v-app>
             <v-main>
-                <v-row>
-                    <v-col sm="4">
-                        <h5 style="margin-left: 15px" class="text-primary"><p>Введите регион организации</p></h5>
-                        <v-autocomplete
-                            no-data-text="Нет данных для выбора"
-                            solo
-                            label="Введите регион организации"
-                            v-model = "region"
-                            :items = "selection_region"
-                            clearable>
-                        </v-autocomplete>
-                        <h5 style="margin-left: 15px" class="text-primary"><p>Выберите уровень организации</p></h5>
-                        <v-select
-                            no-data-text="Нет данных для выбора"
-                            solo
-                            label="Выберите уровень организации"
-                            v-model = "level"
-                            :items = "selection_level"
-                            clearable>
-                        </v-select>
-                    </v-col>
-                </v-row>
-                <v-btn
-                    color="primary"
-                    text
-                    @click="ShowFilteredTable">
-                    Отфильтровать
-                </v-btn>
-                <v-btn
-                    color="red darken-1"
-                    text
-                    @click="ResetTable">
-                    Сбросить фильтры
-                </v-btn>
-                <v-divider></v-divider>
-                <v-card>
-                    <v-card-text>
-                        <v-text-field
-                            v-model="search"
-                            append-icon="mdi-magnify"
-                            label="Search"
-                            single-line
-                            hide-details>
-                        </v-text-field>
+                <div class="container ma-0">
+                    <v-card>
+                        <v-container>
+                            <h5 class="text-primary ps-10 mb-2"><b>Фильтрация данных</b></h5>
+                            <v-row>
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="3"
+                                >
+                                    <v-autocomplete
+                                        no-data-text="Нет данных для выбора"
+                                        outlined
+                                        dense
+                                        label="Введите код организации"
+                                        v-model = "kod"
+                                        :items = "selection_kod"
+                                        clearable
+                                        @change="ShowFilteredTable">
+                                    </v-autocomplete>
+                                </v-col>
+
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="3"
+                                >
+                                    <v-autocomplete
+                                        no-data-text="Нет данных для выбора"
+                                        outlined
+                                        dense
+                                        label="Введите наименование организации"
+                                        v-model = "name_org"
+                                        :items = "selection_name_org"
+                                        clearable
+                                        @change="ShowFilteredTable">
+                                    </v-autocomplete>
+                                </v-col>
+
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="3"
+                                >
+                                    <v-select
+                                        no-data-text="Нет данных для выбора"
+                                        outlined
+                                        dense
+                                        label="Выберите уровень организации"
+                                        v-model = "level"
+                                        :items = "selection_level"
+                                        clearable
+                                        @change="ShowFilteredTable">
+                                    </v-select>
+                                </v-col>
+
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="3"
+                                >
+                                    <v-autocomplete
+                                        no-data-text="Нет данных для выбора"
+                                        outlined
+                                        dense
+                                        label="Введите регион организации"
+                                        v-model = "region"
+                                        :items = "selection_region"
+                                        clearable
+                                        @change="ShowFilteredTable">
+                                    </v-autocomplete>
+                                </v-col>
+
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="3"
+                                >
+                                    <v-autocomplete
+                                        no-data-text="Нет данных для выбора"
+                                        outlined
+                                        dense
+                                        label="Введите основной ОКВЭД"
+                                        v-model = "okved"
+                                        :items = "selection_okved"
+                                        clearable
+                                        @change="ShowFilteredTable">
+                                    </v-autocomplete>
+                                </v-col>
+
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="3"
+                                >
+                                    <v-select
+                                        no-data-text="Нет данных для выбора"
+                                        outlined
+                                        dense
+                                        label="Выберите тип организации"
+                                        v-model = "type_org"
+                                        :items = "selection_type_org"
+                                        clearable
+                                        @change="ShowFilteredTable">
+                                    </v-select>
+                                </v-col>
+
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="3"
+                                >
+                                    <v-select
+                                        no-data-text="Нет данных для выбора"
+                                        outlined
+                                        dense
+                                        label="Выберите тип учреждения"
+                                        v-model = "type_uchr"
+                                        :items = "selection_type_uchr"
+                                        clearable
+                                        @change="ShowFilteredTable">
+                                    </v-select>
+                                </v-col>
+
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="3"
+                                >
+                                    <v-select
+                                        no-data-text="Нет данных для выбора"
+                                        outlined
+                                        dense
+                                        label="Выберите уровень бюджета"
+                                        v-model = "budgetlvl"
+                                        :items = "selection_budgetlvl"
+                                        clearable
+                                        @change="ShowFilteredTable">
+                                    </v-select>
+                                </v-col>
+
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="3"
+                                >
+                                    <v-select
+                                        no-data-text="Нет данных для выбора"
+                                        outlined
+                                        dense
+                                        label="Выберите типизацию"
+                                        v-model = "type"
+                                        :items = "selection_type"
+                                        clearable
+                                        @change="ShowFilteredTable">
+                                    </v-select>
+                                </v-col>
+
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="3"
+                                >
+                                    <v-select
+                                        no-data-text="Нет данных для выбора"
+                                        outlined
+                                        dense
+                                        label="Выберите направленность"
+                                        v-model = "napr"
+                                        :items = "selection_napr"
+                                        clearable
+                                        @change="ShowFilteredTable">
+                                    </v-select>
+                                </v-col>
+                            </v-row>
+                            <v-btn
+                                color="red darken-1"
+                                text
+                                @click="ResetTable"
+                            >
+                                Сбросить фильтры
+                            </v-btn>
+                        </v-container>
+                    </v-card>
+                </div>
+
+
                         <v-divider></v-divider>
                         <v-data-table
                             v-model="selected"
@@ -60,10 +202,31 @@
                             :headers="headers"
                             :items="show_tables_info"
                             class="elevation-1"
-                            :search="search"
                             show-expand
                             :expanded.sync="expanded"
-                            :single-expand="false">
+                            :single-expand="false"
+                        >
+                            <template v-slot:top>
+                                <br>
+                                <v-btn
+                                    class="mx-5"
+                                    color="primary"
+                                    outlined
+                                    onclick="location.href='export.php'"
+                                >
+                                    Экспортировать таблицу в файл
+                                </v-btn>
+                                <v-btn
+                                    class="mx-5"
+                                    color="primary"
+                                    outlined
+                                    onclick="location.href='export.php'"
+                                >
+                                    Экспортировать выбранные данные в файл
+                                </v-btn>
+                                <br>
+                                <br>
+                            </template>
                             <template
                                 v-slot:item._actions="{ item }">
                                 <v-row>
@@ -84,11 +247,16 @@
                             <template v-slot:expanded-item="{ headers, item }">
                                 <td :colspan="headers.length">
                                     <v-divider></v-divider>
-                                    <b><h6>Расширенная информация об организации</h6></b>
-                                    <v-btn
-                                        @click = "ShowItems(item)">
-                                        Показать филиалы
-                                    </v-btn>
+                                    <b><h5>Дополнительная информация об организации: @{{item.name_human}}</h5></b>
+                                    <div v-if= "item.id_parent == item.idlistedu">
+                                        <v-btn
+                                            class="mt-5"
+                                            color="primary"
+                                            outlined
+                                            @click = "ShowItems(item)">
+                                            Показать филиалы
+                                        </v-btn>
+                                    </div>
                                     <v-row>
                                         <v-col
                                             md="5">
@@ -96,295 +264,50 @@
                                                 <v-list dense>
                                                     <v-list-item>
                                                         <v-list-item-content>Код головной организации</v-list-item-content>
-                                                            1
+                                                            @{{item.id_parent}}
                                                         </v-list-item-content>
                                                         <v-list-item-content class="align-end">
                                                     </v-list-item>
 
                                                     <v-list-item>
-                                                        <v-list-item-content>Код организации</v-list-item-content>
+                                                        <v-list-item-content>Наименование главы по БК</v-list-item-content>
                                                         <v-list-item-content class="align-end">
-                                                            2
+                                                            @{{item.kbkname}}
                                                         </v-list-item-content>
                                                     </v-list-item>
 
                                                     <v-list-item>
-                                                        <v-list-item-content>Код ЦГЗГУ</v-list-item-content>
+                                                        <v-list-item-content>Полное наименование</v-list-item-content>
                                                         <v-list-item-content class="align-end">
-                                                            3
+                                                            @{{item.name}}
                                                         </v-list-item-content>
                                                     </v-list-item>
 
                                                     <v-list-item>
-                                                        <v-list-item-content>Код ГИВЦ</v-list-item-content>
+                                                        <v-list-item-content>Сокращенное наименование</v-list-item-content>
                                                         <v-list-item-content class="align-end">
-                                                            4
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Номер по распоряжению</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            5
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Код РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            6
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Номер реестровой записи РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            7
+                                                            @{{item.name_small}}
                                                         </v-list-item-content>
                                                     </v-list-item>
 
                                                     <v-list-item>
                                                         <v-list-item-content>ИНН</v-list-item-content>
                                                         <v-list-item-content class="align-end">
-                                                            8
+                                                            @{{item.inn}}
                                                         </v-list-item-content>
                                                     </v-list-item>
 
                                                     <v-list-item>
                                                         <v-list-item-content>КПП</v-list-item-content>
                                                         <v-list-item-content class="align-end">
-                                                            9
+                                                            @{{item.kpp}}
                                                         </v-list-item-content>
                                                     </v-list-item>
 
                                                     <v-list-item>
-                                                        <v-list-item-content>Код главы по БК</v-list-item-content>
+                                                        <v-list-item-content>ID субъекта РФ организации</v-list-item-content>
                                                         <v-list-item-content class="align-end">
-                                                            10
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Наименование главы по БК</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            11
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Полное наименование по ЕГРЮЛ</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            12
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Краткое наименование по ЕГРЮЛ</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            13
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Аббревиатура</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            14
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Наименование для отчётов</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            15
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Код статуса по ЕГРЮЛ</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            16
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Статус по ЕГРЮЛ</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            17
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Код статуса организации по РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            18
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Статус организации по РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            19
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Код уровня по РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            20
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Уровень по РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            21
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Код региона организации по ЕГРЮЛ</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            22
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Регион организации по ЕГРЮЛ</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            23
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Код региона головной организации по ЕГРЮЛ</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            24
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Регион головной организации по ЕГРЮЛ</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            25
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>ОКТМО по РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            26
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Учредитель по ЕГРЮЛ</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            27
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Код основного ОКВЭД по ЕГРЮЛ</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            28
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Наименование основного ОКВЭД по ЕГРЮЛ</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            29
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Код типа организации по РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            30
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Тип организации по РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            31
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Код типа учреждения по РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            32
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Тип учреждения по РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            33
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Код уровня бюджета по РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            34
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Уровень бюджета по РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            35
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Код ОКФС по РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            36
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Наименование ОКФС по РУБПНУБП</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            37
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Типизация</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            38
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Направленность</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            39
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Адрес</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            40
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Дата создания ЮЛ ЕГРЮЛ</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            41
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-
-                                                    <v-list-item>
-                                                        <v-list-item-content>Дата прекращения деятельности ЮЛ ЕГРЮЛ</v-list-item-content>
-                                                        <v-list-item-content class="align-end">
-                                                            42
+                                                            @{{item.id_region}}
                                                         </v-list-item-content>
                                                     </v-list-item>
                                                 </v-list>
@@ -395,29 +318,6 @@
                                 </td>
                             </template>
                         </v-data-table>
-                        <v-card-actions>
-                            <v-btn
-                                block
-                                depressed
-                                class="transparent font-weight-bold grey--text pa-2 d-flex align-center"
-                                icon @click="ShowDialogAdd"
-                            >
-                                <v-icon>
-                                    mdi-plus
-                                </v-icon>
-                                <span>
-                                Добавить запсиь
-                            </span>
-                            </v-btn>
-                        </v-card-actions>
-                        <v-btn
-                            color="primary"
-                            text
-                            @click="PrintOutSelected()"
-                        >Экспорт выбранных строк в файл
-                        </v-btn>
-                    </v-card-text>
-                </v-card>
 
                 <v-dialog
                     v-model="dialog_delete"
@@ -526,27 +426,27 @@
                 </v-dialog>
 
                 <v-dialog
-                    v-model="dialog_add"
-                    width="700"
+                    v-model="dialog_branches"
                 >
                     <v-card>
                         <v-card-title class="text-h5 grey lighten-2">
-                            Добавление данных
+                            @{{this.name_org_to_dialog}} имеет филиалы:
                         </v-card-title>
-                        <v-divider></v-divider>
+                        <br>
+                            <v-data-table
+                                item-key="idlistedu"
+                                :headers="headers_branches"
+                                :items="show_branches_tables_info"
+                                class="elevation-1"
+                            >
+                            </v-data-table>
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn
                                 color="red darken-1"
                                 text
-                                @click="dialog_add = false">
-                                Отмена
-                            </v-btn>
-                            <v-btn
-                                color="primary"
-                                text
-                                @click="">
-                                Добавить
+                                @click="dialog_branches = false">
+                                Закрыть
                             </v-btn>
                         </v-card-actions>
                     </v-card>
@@ -564,15 +464,41 @@
             vuetify: new Vuetify(),
             data(){
                 return{
+                    name_org_to_dialog:'',
+                    kod_gol:'',
+                    dialog_branches: false,
+
+                    selection_kod:[],
+                    selection_name_org:[],
                     selection_region:[],
                     selection_level:[],
+                    selection_okved:[],
+                    selection_type_org:[],
+                    selection_type_uchr:[],
+                    selection_budgetlvl:[],
+                    selection_type:[],
+                    selection_napr:[],
+
+
+                    kod:'',
+                    name_org:'',
                     region:'',
                     level:'',
-                    search: '',
+                    okved:'',
+                    type_org:'',
+                    type_uchr:'',
+                    budgetlvl:'',
+                    type:'',
+                    napr:'',
+
+
+
+
                     kod_org: '',
                     level_org: '',
                     selected: [],
                     expanded: [],
+                    show_branches_tables_info: [],
                     show_tables_info: [],
                     dialog_delete: false,
                     dialog_change: false,
@@ -585,28 +511,71 @@
                             align: 'start',
                             value: 'idlistedu',
                         },
-                        { text: 'Наименование организации', value: 'name_human' },
+                        { text: 'Наименование организации', value: 'name_human', width: '200px'},
                         { text: 'Уровень', value: 'level' },
                         { text: 'Регион организации', value: 'region' },
                         { text: 'Наименование основного ОКВЭД', value: 'okvedname' },
                         { text: 'Тип организации', value: 'orgtypename' },
                         { text: 'Тип учреждения', value: 'establishmentkindname' },
                         { text: 'Уровень бюджета', value: 'budgetlvlname' },
-                        { text: 'Наименование ОКФС', value: 'okfs_name' },
                         { text: 'Типизация', value: 'org_type' },
                         { text: 'Направленность', value: 'id_napr' },
                         { text: 'Адрес', value: 'address' },
                         { text: 'Изменить/удалить', value: '_actions'},
                     ],
+                    headers_branches: [
+                        { text: '', value: 'data-table-expand' },
+                        {
+                            text: 'Код организации',
+                            align: 'start',
+                            value: 'idlistedu',
+                        },
+                        { text: 'Наименование организации', value: 'name_human', width: '200px'},
+                        { text: 'Уровень', value: 'level' },
+                        { text: 'Регион организации', value: 'region' },
+                        { text: 'Наименование основного ОКВЭД', value: 'okvedname' },
+                        { text: 'Тип организации', value: 'orgtypename' },
+                        { text: 'Тип учреждения', value: 'establishmentkindname' },
+                        { text: 'Уровень бюджета', value: 'budgetlvlname' },
+                        { text: 'Типизация', value: 'org_type' },
+                        { text: 'Направленность', value: 'id_napr' },
+                        { text: 'Адрес', value: 'address' },
+                    ],
                 }
             },
             methods:{
+                ExportTable(){
+                    //
+                },
+                ExportSelected(){
+                    //
+                },
+                FillBranchesTable(){
+                    this.show_branches_tables_info = this.show_tables_info_.filter(data => data.id_parent == this.kod_gol && data.idlistedu != this.kod_gol)
+                },
+                ShowItems(item){
+                    this.kod_gol = item.idlistedu
+                    this.name_org_to_dialog = item.name_human
+                    this.FillBranchesTable()
+                    this.dialog_branches = true
+                },
                 ResetTable(){
                     this.show_tables_info = this.show_tables_info_
+                    this.ChangeSelection()
+                    this.kod=''
+                    this.name_org=''
+                    this.region=''
+                    this.level=''
+                    this.okved=''
+                    this.type_org=''
+                    this.type_uchr=''
+                    this.budgetlvl=''
+                    this.type=''
+                    this.napr=''
                 },
-                ShowSelectionRegion(){
+                ShowSelection(){
                     let data = new FormData()
-                    fetch('GetTableRegion',{
+                    fetch('GetTableData',{
                         method:'GET',
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     })
@@ -614,18 +583,63 @@
                             return response.json()
                         })
                         .then((data)=>{
+                            this.selection_kod = data.map(({ idlistedu }) => idlistedu)
+                            this.selection_name_org = data.map(({ name_human }) => name_human)
                             this.selection_region = data.map(({ region }) => region)
                             this.selection_level = data.map(({ level }) => level)
+                            this.selection_okved = data.map(({ okvedname }) => okvedname)
+                            this.selection_type_org = data.map(({ orgtypename }) => orgtypename)
+                            this.selection_type_uchr = data.map(({ establishmentkindname }) => establishmentkindname)
+                            this.selection_budgetlvl = data.map(({ budgetlvlname }) => budgetlvlname)
+                            this.selection_type = data.map(({ org_type }) => org_type)
+                            this.selection_napr = data.map(({ id_napr }) => id_napr)
                         })
+                },
+                ChangeSelection(){
+                    this.selection_kod = this.show_tables_info.map(({ idlistedu }) => idlistedu)
+                    this.selection_name_org = this.show_tables_info.map(({ name_human }) => name_human)
+                    this.selection_region = this.show_tables_info.map(({ region }) => region)
+                    this.selection_level = this.show_tables_info.map(({ level }) => level)
+                    this.selection_okved = this.show_tables_info.map(({ okvedname }) => okvedname)
+                    this.selection_type_org = this.show_tables_info.map(({ orgtypename }) => orgtypename)
+                    this.selection_type_uchr = this.show_tables_info.map(({ establishmentkindname }) => establishmentkindname)
+                    this.selection_budgetlvl = this.show_tables_info.map(({ budgetlvlname }) => budgetlvlname)
+                    this.selection_type = this.show_tables_info.map(({ org_type }) => org_type)
+                    this.selection_napr = this.show_tables_info.map(({ id_napr }) => id_napr)
                 },
                 ShowFilteredTable(){
                     this.show_tables_info = this.show_tables_info_
+                    if (this.kod){
+                        this.show_tables_info = this.show_tables_info.filter(data => data.idlistedu == this.kod)
+                    }
+                    if (this.name_org){
+                        this.show_tables_info = this.show_tables_info.filter(data => data.name_human == this.name_org)
+                    }
                     if (this.region){
                         this.show_tables_info = this.show_tables_info.filter(data => data.region == this.region)
                     }
                     if (this.level){
                         this.show_tables_info = this.show_tables_info.filter(data => data.level == this.level)
                     }
+                    if (this.okved){
+                        this.show_tables_info = this.show_tables_info.filter(data => data.okvedname == this.okved)
+                    }
+                    if (this.type_org){
+                        this.show_tables_info = this.show_tables_info.filter(data => data.orgtypename == this.type_org)
+                    }
+                    if (this.type_uchr){
+                        this.show_tables_info = this.show_tables_info.filter(data => data.establishmentkindname == this.type_uchr)
+                    }
+                    if (this.budgetlvl){
+                        this.show_tables_info = this.show_tables_info.filter(data => data.budgetlvlname == this.budgetlvl)
+                    }
+                    if (this.type){
+                        this.show_tables_info = this.show_tables_info.filter(data => data.org_type == this.type)
+                    }
+                    if (this.napr){
+                        this.show_tables_info = this.show_tables_info.filter(data => data.id_napr == this.napr)
+                    }
+                    this.ChangeSelection()
                 },
                 async ShowUnitedTable(){//Запрос на данные из таблиц
                     this.show_tables_info_ = []
@@ -689,7 +703,7 @@
             },
             mounted: function (){//предзапуск функций
                 this.ShowUnitedTable();
-                this.ShowSelectionRegion();
+                this.ShowSelection();
             }
         })
     </script>

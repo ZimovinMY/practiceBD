@@ -27,8 +27,8 @@ class MainController extends Controller
         DB::table('down1_1')->where('id_parent', '=', $kod_org)->delete();
     }
 
-    public function GetTableRegion(){
-        $region = DB::table('down1_1')->get();
-        return json_encode($region);
+    public function GetTableData(){
+        $data = DB::table('down1_1')->get();
+        return json_encode($data);
     }
 }
