@@ -16,7 +16,7 @@
 
 
 <div>
-    <header class="bg-primary text-white d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom" style="--bs-bg-opacity: .2; padding-left: 100px; padding-right: 50px">
+    <header class="bg-primary text-white d-flex flex-wrap justify-content-center py-2 mb-4 border-bottom" style="--bs-bg-opacity: .2; padding-left: 100px; padding-right: 50px">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
             <img width="34" height="34" src="https://cdn-icons-png.flaticon.com/512/1104/1104982.png">
             <span class="text-primary" style="padding-left: 10px" class="fs-4"><b>MINOBR MANAGEMENT</b></span>
@@ -30,9 +30,6 @@
         </ul>
     </header>
 </div>
-
-
-
 
 @yield('content')
 
