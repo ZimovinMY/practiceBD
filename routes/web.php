@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::GET('/', 'MainController@main');
 Route::GET('/ShowUnitedTable', 'MainController@ShowUnitedTable','ShowUnitedTable');
 Route::GET('/GetTableData', 'MainController@GetTableData','GetTableData');
 Route::POST('/DeleteDataONE', 'MainController@DeleteDataONE','DeleteDataONE');
@@ -25,25 +24,25 @@ Route::post('/ExportReportBranches','MainController@ExportReportBranches','Expor
 Route::post('/ExportReportBranchesSelection','MainController@ExportReportBranchesSelection','ExportReportBranchesSelection');
 Route::get('/GetDownload', 'MainController@GetDownload')->name('GetDownload');
 
-/*Route::name('user.')->group(function(){
-    Route::view('/private','private')->middleware('auth')->name('private');
-    Route::get('/login',function(){
-        if(Auth::check()){
-            return redirect(route('user.private'));
-        }
-        return view('login');
-    })->name('login');
 
-    //Route::post('/login',[]);
 
-    //Route::get('/logout')->name('logout');
+Route::middleware("auth")->group(function(){
+    Route::get('/', 'MainController@main')->name('home');
+    Route::get('/logout', 'AuthController@logout')->name('logout');
+});
 
-    Route::get('/registration',function(){
-        if(Auth::check()){
-            return redirect(route('user.private'));
-        }
-        return view('registration');
-    })->name('registration');
+Route::middleware("guest")->group(function(){
+    Route::get('/login', 'AuthController@showLoginForm')->name('login');
+    Route::post('/login_process', 'AuthController@login')->name('login_process');
 
-    //Route::post('/registration',[]);
-}); /*
+    Route::get('/register', 'AuthController@showRegisterForm')->name('register');
+    Route::post('/register_process', 'AuthController@register')->name('register_process');
+
+    Route::get('/forgot', 'AuthController@showForgotForm')->name('forgot');
+    Route::post('/forgot_process', 'AuthController@forgot')->name('forgot_process');
+});
+
+
+
+
+

@@ -211,9 +211,9 @@
                             :headers="headers"
                             :items="show_tables_info"
                             class="elevation-1"
-                            show-expand
                             :expanded.sync="expanded"
                             :single-expand="false"
+                            @click:row="(item, slot) => OpenInfo(item,slot)"
                         >
                             <template v-slot:top>
                                 <br>
@@ -254,38 +254,40 @@
                                     </v-btn>
                                 </v-row>
                             </template>
-                            <template v-slot:expanded-item="{ headers, item }">
+                            <template v-slot:expanded-item="{ item, headers }">
                                 <td :colspan="headers.length">
-                                    <v-divider></v-divider>
-                                    <b><h5>Дополнительная информация об организации: @{{item.name_human}}</h5></b>
+                                    <div class="mt-5 ml-5">
+                                        <b><h5>Дополнительная информация об организации: @{{item.name_human}}</h5></b>
+                                    </div>
                                     <div v-if= "item.id_parent == item.idlistedu">
-                                        <!--
-                                        <v-textarea
-                                            v-model="branches_name"
-                                            label="Филиалы организации"
-                                            color="teal"
-                                            class="ma-0 pa-0"
-                                            auto-grow
-                                            readonly
-                                            rows="1"
-                                        >
-                                        </v-textarea>
+
+                                        <v-row>
+                                            <v-col
+                                                cols="12"
+                                                md="8"
+                                            >
+                                                <div class="ml-2">
+                                                    <b><h6>Филиалы организации:</h6></b>
+                                                </div>
+                                                <v-textarea
+                                                    v-model="branches_name"
+                                                    label="Филиалы организации"
+                                                    solo
+                                                    color="teal"
+                                                    auto-grow
+                                                    readonly
+                                                    rows="1"
+                                                >
+                                                </v-textarea>
+                                            </v-col>
+                                        </v-row>
                                         <v-btn
-                                            class="mt-2 ml-5"
-                                            color="primary"
-                                            outlined
-                                            @click = "ShowBranches(item)"
-                                            small>
-                                            ТЕСТ
-                                        </v-btn>
-                                        -->
-                                        <v-btn
-                                            class="mt-2 ml-5"
+                                            class="mb-2"
                                             color="primary"
                                             outlined
                                             @click = "ShowItems(item)"
                                             small>
-                                            Показать филиалы
+                                            Показать дополнительную информацию о филиалах
                                         </v-btn>
                                     </div>
                                     <v-row>
@@ -366,17 +368,10 @@
                                             </v-card>
                                         </v-col>
                                     </v-row>
-                                    <v-divider></v-divider>
+                                    <br>
                                 </td>
                             </template>
                         </v-data-table>
-                <v-dialog
-                    v-model="show_dialog"
-                >
-                    <v-card>
-                        @{{ this.branches_name }}
-                    </v-card>
-                </v-dialog>
                 <v-dialog
                     v-model="dialog_delete"
                     max-width="500"
@@ -755,9 +750,9 @@
                                 :single-select="false"
                                 item-key="idlistedu"
                                 show-select
-                                show-expand
                                 :expanded.sync="expanded_branches"
                                 :single-expand="false"
+                                @click:row="(item, slot) => OpenInfo(item,slot)"
                             >
                                 <template v-slot:top>
 
@@ -801,8 +796,9 @@
                                 </template>
                                 <template v-slot:expanded-item="{ headers, item }">
                                     <td :colspan="headers.length">
-                                        <v-divider></v-divider>
-                                        <b><h5>Дополнительная информация об организации: @{{item.name_human}}</h5></b>
+                                        <div class="mt-5 ml-5">
+                                            <b><h5>Дополнительная информация об организации: @{{item.name_human}}</h5></b>
+                                        </div>
                                         <v-row>
                                             <v-col
                                                 md="5">
@@ -881,7 +877,7 @@
                                                 </v-card>
                                             </v-col>
                                         </v-row>
-                                        <v-divider></v-divider>
+                                        <br>
                                     </td>
                                 </template>
                             </v-data-table>
@@ -912,7 +908,7 @@
                 return{
                     show_dialog:false,
                     branches_name:[],
-
+                    id:'',
 
                     slovar:[],
                     slovar1:[],
@@ -989,7 +985,6 @@
                     dialog_add: false,
                     delete_branch: false,
                     headers: [
-                        { text: '', value: 'data-table-expand' },
                         {
                             text: 'Код организации',
                             align: 'start',
@@ -1006,7 +1001,6 @@
                         { text: 'Изменить/удалить', value: '_actions',width: '90px'},
                     ],
                     headers_branches: [
-                        { text: '', value: 'data-table-expand' },
                         {
                             text: 'Код организации',
                             align: 'start',
@@ -1025,16 +1019,18 @@
                 }
             },
             methods:{
-                ShowBranches(item){
-                    let branches = this.show_tables_info_.filter(data => data.id_parent == item.idlistedu)
-                    this.branches_name = branches.map(({ name_human }) => name_human)
-                    this.show_dialog = true
+                OpenInfo(item, slot){
+                    console.log(item)
+                    this.ShowBranches1(item)
+                    slot.expand(!slot.isExpanded)
                 },
                 ShowBranches1(item){
-                    let branches = this.show_tables_info_.filter(data => data.id_parent == item.idlistedu)
+                    let branches = this.show_tables_info_.filter(data => data.id_parent == item.idlistedu && data.idlistedu != item.idlistedu)
                     this.branches_name = branches.map(({ name_human }) => name_human)
+                    if (this.branches_name == ''){
+                        this.branches_name = 'Филиалов нет'
+                    }
                 },
-
                 compareNumbers(a,b){
                     return a - b;
                 },
@@ -1360,7 +1356,7 @@
             mounted: function (){
                 this.ShowUnitedTable();
                 this.ShowSelection();
-            }
+            },
         })
     </script>
 
