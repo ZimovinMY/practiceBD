@@ -18,14 +18,13 @@
     <header class="bg-primary text-white d-flex flex-wrap justify-content-center py-2 mb-2 border-bottom" style="--bs-bg-opacity: .2; padding-left: 100px; padding-right: 50px">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none" style="margin-left: 405px">
             <img width="55" height="55" src="https://cdn-icons-png.flaticon.com/512/1104/1104982.png">
-            <span class="text-primary" style="padding-left: 10px" class="fs-4"><center><b>Выпускная квалификационная работа по теме:<br>
+            <span class="text-primary" style="padding-left: 10px" class="fs-4"><center><b>
                 "Разработка программных средств для работы с реестром организаций,<br>
                 задействованных в бюджетных процессах Минобрнауки"
             </b></center></span>
         </a>
-        <ul class="nav nav-pills mt-3">
+        <ul class="nav nav-pills mt-2">
             <li class="nav-item"><a href="/" class="nav-link active text-white" aria-current="page">На главную</a></li>
-            <li class="nav-item"><a href="task.docx" download class="nav-link">Задание</a></li>
             @auth("web")
                 <li class="nav-item"><a href="{{route("logout")}}" class="nav-link">Выйти</a></li>
             @endauth

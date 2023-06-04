@@ -16,14 +16,14 @@
 </head>
 <div>
     <header class="bg-primary text-white d-flex flex-wrap justify-content-center py-2 mb-2 border-bottom" style="--bs-bg-opacity: .2; padding-left: 100px; padding-right: 50px">
-        <ul class="nav nav-pills my-3 ">
+        <ul class="nav nav-pills my-2 ">
             <button type="button" class="btn btn-danger" disabled>Панель администратора</button>
             <!--<li class="nav-item"><a class="nav-link active">Панель администратора</a></li>-->
         </ul>
 
         <a href="/admin/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none" style="margin-left: 200px">
             <img width="55" height="55" src="https://cdn-icons-png.flaticon.com/512/1104/1104982.png">
-            <span class="text-primary" style="padding-left: 10px" class="fs-4"><center><b>Выпускная квалификационная работа по теме:<br>
+            <span class="text-primary" style="padding-left: 10px" class="fs-4"><center><b>
                 "Разработка программных средств для работы с реестром организаций,<br>
                 задействованных в бюджетных процессах Минобрнауки"
             </b></center></span>
@@ -34,9 +34,8 @@
                 задействованных в бюджетных процессах Минобрнауки"
             </b></center> -->
 
-        <ul class="nav nav-pills mt-3">
+        <ul class="nav nav-pills mt-2">
             <li class="nav-item"><a href="/admin/admin" class="nav-link active text-white" aria-current="page">На главную</a></li>
-            <li class="nav-item"><a href="task.docx" download class="nav-link">Задание</a></li>
             @auth("admin")
                 <li class="nav-item"><a href="{{route("logout")}}" class="nav-link">Выйти</a></li>
             @endauth

@@ -11,7 +11,7 @@
                 <div class="container" style="max-width: 1650px">
                     <v-card>
                         <v-container style="max-width: 1600px">
-                            <h5 class="text-primary ps-10 mb-3"><b>Фильтрация данных</b></h5>
+                            <h5 class="text-primary ps-10 mb-3">Фильтрация данных</h5>
                             <v-row>
                                 <v-col
                                     cols="12"
@@ -206,6 +206,7 @@
                     </v-card>
                 </div>
                 <v-data-table
+                    :search="search_main"
                     v-model="selected"
                     :single-select="false"
                     item-key="idlistedu"
@@ -223,7 +224,7 @@
                             class="ml-7"
                             color="primary"
                             outlined
-                            @click="ExportTableReport"
+                            @click="ExportChoiceShow"
                             small
                         >
                             Экспортировать таблицу в файл
@@ -232,13 +233,20 @@
                             class="ml-7"
                             color="primary"
                             outlined
-                            @click="ExportSelectedReport"
+                            @click="ExportChoiceShow"
                             small
                         >
                             Экспортировать выбранные данные в файл
                         </v-btn>
-                        <br>
-                        <br>
+                        <v-container class="ml-0 pt-0" style="max-width: 1700px">
+                            <v-text-field class="ml-0 mt-0"
+                                          v-model="search_main"
+                                          append-icon="mdi-magnify"
+                                          label="Поиск"
+                                          single-line
+                                          hide-details
+                            ></v-text-field>
+                        </v-container>
                     </template>
                     <template
                         v-slot:item._actions="{ item }">
@@ -261,40 +269,10 @@
                             <div class="mt-5 ml-5">
                                 <b><h5>Дополнительная информация об организации: @{{item.name_human}}</h5></b>
                             </div>
-                            <div v-if="item.id_parent == item.idlistedu">
-
-                                <v-row>
-                                    <v-col
-                                        cols="12"
-                                        md="8"
-                                    >
-                                        <div class="ml-2">
-                                            <b><h6>Филиалы организации:</h6></b>
-                                        </div>
-                                        <v-textarea
-                                            v-model="branches_name"
-                                            label="Филиалы организации"
-                                            solo
-                                            color="teal"
-                                            auto-grow
-                                            readonly
-                                            rows="1"
-                                        >
-                                        </v-textarea>
-                                    </v-col>
-                                </v-row>
-                                <v-btn
-                                    class="mb-2"
-                                    color="primary"
-                                    outlined
-                                    @click="ShowItems(item)"
-                                    small>
-                                    Показать дополнительную информацию о филиалах
-                                </v-btn>
-                            </div>
                             <v-row>
                                 <v-col
-                                    md="5">
+                                    cols="5"
+                                >
                                     <v-card>
                                         <v-list dense>
                                             <v-list-item>
@@ -302,6 +280,20 @@
                                                 @{{item.id_parent}}
                                                 </v-list-item-content>
                                                 <v-list-item-content class="align-end">
+                                            </v-list-item>
+
+                                            <v-list-item>
+                                                <v-list-item-content>Код организации</v-list-item-content>
+                                                @{{item.idlistedu}}
+                                                </v-list-item-content>
+                                                <v-list-item-content class="align-end">
+                                            </v-list-item>
+
+                                            <v-list-item>
+                                                <v-list-item-content>Наименование организации</v-list-item-content>
+                                                <v-list-item-content class="align-end">
+                                                    @{{item.name_human}}
+                                                </v-list-item-content>
                                             </v-list-item>
 
                                             <v-list-item>
@@ -315,6 +307,13 @@
                                                 <v-list-item-content>Сокращенное наименование</v-list-item-content>
                                                 <v-list-item-content class="align-end">
                                                     @{{item.name_small}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                            <v-list-item>
+                                                <v-list-item-content>Код главы по БК</v-list-item-content>
+                                                <v-list-item-content class="align-end">
+                                                    @{{item.kbkcode}}
                                                 </v-list-item-content>
                                             </v-list-item>
 
@@ -333,6 +332,13 @@
                                             </v-list-item>
 
                                             <v-list-item>
+                                                <v-list-item-content>Регион организации</v-list-item-content>
+                                                <v-list-item-content class="align-end">
+                                                    @{{item.region}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                            <v-list-item>
                                                 <v-list-item-content>ИНН</v-list-item-content>
                                                 <v-list-item-content class="align-end">
                                                     @{{item.inn}}
@@ -343,6 +349,34 @@
                                                 <v-list-item-content>КПП</v-list-item-content>
                                                 <v-list-item-content class="align-end">
                                                     @{{item.kpp}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                            <v-list-item>
+                                                <v-list-item-content>Уровень</v-list-item-content>
+                                                <v-list-item-content class="align-end">
+                                                    @{{item.level}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                            <v-list-item>
+                                                <v-list-item-content>Тип учреждения</v-list-item-content>
+                                                <v-list-item-content class="align-end">
+                                                    @{{item.establishmentkindname}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                            <v-list-item>
+                                                <v-list-item-content>Типизация</v-list-item-content>
+                                                <v-list-item-content class="align-end">
+                                                    @{{item.org_type}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                            <v-list-item>
+                                                <v-list-item-content>Направленность</v-list-item-content>
+                                                <v-list-item-content class="align-end">
+                                                    @{{item.id_napr}}
                                                 </v-list-item-content>
                                             </v-list-item>
 
@@ -369,6 +403,36 @@
                                         </v-list>
                                     </v-card>
                                 </v-col>
+                                    <v-col
+                                        cols="6"
+                                    >
+                                        <div v-if="item.id_parent == item.idlistedu">
+                                        <div class="ml-2">
+                                            <b><h6>Филиалы организации:</h6></b>
+                                        </div>
+                                        <v-textarea
+                                            v-model="branches_name"
+                                            label="Филиалы организации"
+                                            solo
+                                            color="teal"
+                                            auto-grow
+                                            readonly
+                                            rows="1"
+                                            hide-details
+                                        >
+                                        </v-textarea>
+
+                                        <v-btn
+                                            class="mb-5 mt-4"
+                                            color="primary"
+                                            outlined
+                                            @click="ShowItems(item)"
+                                            small>
+                                            Показать дополнительную информацию о филиалах
+                                        </v-btn>
+                                        </div>
+                                    </v-col>
+
                             </v-row>
                             <br>
                         </td>
@@ -462,7 +526,7 @@
                         <v-card-title class="text-h5 grey lighten-2">
                             Изменение данных
                         </v-card-title>
-                        <v-card-text>
+                        <v-card-text class="mt-3 pb-0">
                             <v-form ref="form">
                                 <v-container>
                                     <v-row>
@@ -751,7 +815,6 @@
                             class="elevation-1"
                             v-model="selected_branches"
                             :single-select="false"
-                            item-key="idlistedu"
                             show-select
                             :expanded.sync="expanded_branches"
                             :single-expand="false"
@@ -804,15 +867,28 @@
                                     </div>
                                     <v-row>
                                         <v-col
-                                            md="5">
+                                            cols="5">
                                             <v-card>
                                                 <v-list dense>
                                                     <v-list-item>
-                                                        <v-list-item-content>Код головной организации
-                                                        </v-list-item-content>
+                                                        <v-list-item-content>Код головной организации</v-list-item-content>
                                                         @{{item.id_parent}}
                                                         </v-list-item-content>
                                                         <v-list-item-content class="align-end">
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Код организации</v-list-item-content>
+                                                        @{{item.idlistedu}}
+                                                        </v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Наименование организации</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            @{{item.name_human}}
+                                                        </v-list-item-content>
                                                     </v-list-item>
 
                                                     <v-list-item>
@@ -823,26 +899,37 @@
                                                     </v-list-item>
 
                                                     <v-list-item>
-                                                        <v-list-item-content>Сокращенное наименование
-                                                        </v-list-item-content>
+                                                        <v-list-item-content>Сокращенное наименование</v-list-item-content>
                                                         <v-list-item-content class="align-end">
                                                             @{{item.name_small}}
                                                         </v-list-item-content>
                                                     </v-list-item>
 
                                                     <v-list-item>
-                                                        <v-list-item-content>Наименование главы по БК
+                                                        <v-list-item-content>Код главы по БК</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            @{{item.kbkcode}}
                                                         </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Наименование главы по БК</v-list-item-content>
                                                         <v-list-item-content class="align-end">
                                                             @{{item.kbkname}}
                                                         </v-list-item-content>
                                                     </v-list-item>
 
                                                     <v-list-item>
-                                                        <v-list-item-content>ID субъекта РФ организации
-                                                        </v-list-item-content>
+                                                        <v-list-item-content>ID субъекта РФ организации</v-list-item-content>
                                                         <v-list-item-content class="align-end">
                                                             @{{item.id_region}}
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Регион организации</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            @{{item.region}}
                                                         </v-list-item-content>
                                                     </v-list-item>
 
@@ -857,6 +944,34 @@
                                                         <v-list-item-content>КПП</v-list-item-content>
                                                         <v-list-item-content class="align-end">
                                                             @{{item.kpp}}
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Уровень</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            @{{item.level}}
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Тип учреждения</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            @{{item.establishmentkindname}}
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Типизация</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            @{{item.org_type}}
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+
+                                                    <v-list-item>
+                                                        <v-list-item-content>Направленность</v-list-item-content>
+                                                        <v-list-item-content class="align-end">
+                                                            @{{item.id_napr}}
                                                         </v-list-item-content>
                                                     </v-list-item>
 
@@ -900,6 +1015,48 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
+
+
+                <v-dialog
+                    v-model="dialog_export"
+                    max-width="455"
+                >
+                    <v-card>
+                        <v-card-title class="grey lighten-2">
+                            <h5 class="ps-10">Выберите атрибуты для экспорта</h5>
+                        </v-card-title>
+                        <v-container>
+                            <v-data-table
+                                item-key="name"
+                                :headers="headers_export"
+                                :items="attributes"
+                                class="elevation-1"
+                                v-model="selected_export"
+                                item-key="attributes"
+                                :single-select="false"
+                                show-select
+                            >
+                            </v-data-table>
+                        </v-container>
+                        <v-card-actions class="mr-3 pa-0">
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                color="red darken-1"
+                                text
+                                @click="ExportClose"
+                                class="mb-2">
+                                Отмена
+                            </v-btn>
+                            <v-btn
+                                color="primary"
+                                text
+                                @click="ExportTableReport"
+                                class="mb-2">
+                                Экспортировать
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             </v-main>
         </v-app>
     </div>
@@ -913,6 +1070,29 @@
             vuetify: new Vuetify(),
             data() {
                 return {
+                    search_main: [],
+                    selected_export: [],
+                    attributes: [
+                        {name: 'Код организации'},
+                        {name: 'Наименование организации'},
+                        {name: 'Уровень'},
+                        {name: 'Регион организации'},
+                        {name: 'Код главы по БК'},
+                        {name: 'Тип учреждения'},
+                        {name: 'Типизация'},
+                        {name: 'Направленность'},
+                        {name: 'Код головной организации'},
+                        {name: 'Полное наименование'},
+                        {name: 'Сокращенное наименование'},
+                        {name: 'Наименование главы по БК'},
+                        {name: 'ID субъекта РФ организации'},
+                        {name: 'ИНН'},
+                        {name: 'КПП'},
+                        {name: 'Тип организации'},
+                        {name: 'Уровень бюджета'},
+                        {name: 'Адрес'},
+                    ],
+                    dialog_export: false,
                     show_dialog: false,
                     branches_name: [],
                     id: '',
@@ -1023,9 +1203,19 @@
                         {text: 'Направленность', value: 'id_napr', width: '150px'},
                         {text: 'Изменить/удалить', value: '_actions', width: '90px'},
                     ],
+                    headers_export: [
+                        {text: 'Атрибуты',align: 'center',sortable: false,value: 'name'},
+                    ],
                 }
             },
             methods: {
+                ExportClose() {
+                    this.dialog_export = false
+                    this.selected_export = []
+                },
+                ExportChoiceShow() {
+                    this.dialog_export = true
+                },
                 OpenInfo(item, slot) {
                     console.log(item)
                     this.ShowBranches1(item)
