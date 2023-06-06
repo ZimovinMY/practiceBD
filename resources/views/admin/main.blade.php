@@ -215,7 +215,7 @@
                     :items="show_tables_info"
                     class="elevation-1"
                     :expanded.sync="expanded"
-                    :single-expand="false"
+                    :single-expand="true"
                     @click:row="(item, slot) => OpenInfo(item,slot)"
                 >
                     <template v-slot:top>
@@ -407,29 +407,27 @@
                                         cols="6"
                                     >
                                         <div v-if="item.id_parent == item.idlistedu">
-                                        <div class="ml-2">
-                                            <b><h6>Филиалы организации:</h6></b>
-                                        </div>
-                                        <v-textarea
-                                            v-model="branches_name"
-                                            label="Филиалы организации"
-                                            solo
-                                            color="teal"
-                                            auto-grow
-                                            readonly
-                                            rows="1"
-                                            hide-details
-                                        >
-                                        </v-textarea>
-
-                                        <v-btn
-                                            class="mb-5 mt-4"
-                                            color="primary"
-                                            outlined
-                                            @click="ShowItems(item)"
-                                            small>
-                                            Показать дополнительную информацию о филиалах
-                                        </v-btn>
+                                            <v-list>
+                                                <v-subheader><h5>Филиалы организации:</h5></v-subheader>
+                                                <v-list-item
+                                                    v-for="i in branches_name"
+                                                    :key="i"
+                                                >
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>
+                                                            <i class="mr-1 mdi mdi-checkbox-blank-circle"></i> @{{ i }}
+                                                        </v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                            </v-list>
+                                            <v-btn
+                                                class="ml-4"
+                                                color="primary"
+                                                outlined
+                                                @click="ShowItems(item)"
+                                                small>
+                                                Показать дополнительную информацию о филиалах
+                                            </v-btn>
                                         </div>
                                     </v-col>
 
@@ -817,8 +815,8 @@
                             :single-select="false"
                             show-select
                             :expanded.sync="expanded_branches"
-                            :single-expand="false"
-                            @click:row="(item, slot) => OpenInfo(item,slot)"
+                            :single-expand="true"
+                            @click:row="(item, slot) => OpenInfo_branches(item,slot)"
                         >
                             <template v-slot:top>
 
@@ -1217,7 +1215,6 @@
                     this.dialog_export = true
                 },
                 OpenInfo(item, slot) {
-                    console.log(item)
                     this.ShowBranches1(item)
                     slot.expand(!slot.isExpanded)
                 },
@@ -1225,8 +1222,11 @@
                     let branches = this.show_tables_info_.filter(data => data.id_parent == item.idlistedu && data.idlistedu != item.idlistedu)
                     this.branches_name = branches.map(({name_human}) => name_human)
                     if (this.branches_name == '') {
-                        this.branches_name = 'Филиалов нет'
+                        this.branches_name = '' ///// что-то нужно вставить
                     }
+                },
+                OpenInfo_branches(item, slot) {
+                    slot.expand(!slot.isExpanded)
                 },
                 compareNumbers(a, b) {
                     return a - b;
