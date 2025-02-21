@@ -32,13 +32,13 @@ COPY . .
 # Установка зависимостей Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Создание базы данных и пользователя PostgreSQL
+# Настройка PostgreSQL
 RUN service postgresql start && \
-    su - postgres -c "psql -c \"CREATE USER postgres WITH PASSWORD '12345';\"" && \
-    su - postgres -c "psql -c \"CREATE DATABASE reestr OWNER postgres;\""
+    su - postgres -c "psql -tc \"SELECT 1 FROM pg_roles WHERE rolname='postgres'\" | grep -q 1 || psql -c \"ALTER USER postgres WITH PASSWORD '12345';\"" && \
+    su - postgres -c "psql -tc \"SELECT 1 FROM pg_database WHERE datname='reestr'\" | grep -q 1 || psql -c \"CREATE DATABASE reestr OWNER postgres;\""
 
 # Открываем порт
 EXPOSE 8000
 
 # Запуск PostgreSQL и Laravel при старте контейнера
-CMD service postgresql start && php artisan serve --host=0.0.0.0 --port=8000
+CMD service postgresql start && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000
