@@ -3,11 +3,20 @@ FROM php:7.4-fpm
 
 # Установка зависимостей и расширений
 RUN apt-get update && apt-get install -y \
+    build-essential \
     libzip-dev \
     libpq-dev \
     unzip \
-    && docker-php-ext-install zip pdo pdo_pgsql gd \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libwebp-dev \
+    libxpm-dev \
+    pkg-config \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-xpm \
+    && docker-php-ext-install gd zip pdo pdo_pgsql \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 
 # Установка Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
