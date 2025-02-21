@@ -13,16 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::GET('/ShowUnitedTable', 'MainController@ShowUnitedTable','ShowUnitedTable');
-Route::GET('/GetTableData', 'MainController@GetTableData','GetTableData');
-Route::POST('/DeleteDataONE', 'MainController@DeleteDataONE','DeleteDataONE');
-Route::POST('/DeleteDataALL', 'MainController@DeleteDataALL','DeleteDataALL');
+Route::get('/ShowUnitedTable', 'MainController@ShowUnitedTable','ShowUnitedTable');
+Route::get('/org/{id}', 'MainController@ShowOrgInfo');
+Route::get('/ShowBranches', 'MainController@ShowBranches','ShowBranches');
+Route::get('/GetTableData', 'MainController@GetTableData','GetTableData');
+Route::post('/ExportReportSelection','MainController@ExportReportSelection','ExportReportSelection');
+Route::get('/GetDownload', 'MainController@GetDownload')->name('GetDownload');
+
+
+Route::post('/DeleteDataONE', 'MainController@DeleteDataONE','DeleteDataONE');
+Route::post('/DeleteDataALL', 'MainController@DeleteDataALL','DeleteDataALL');
 Route::post('/ChangeData','MainController@ChangeData','ChangeData');
 Route::post('/ExportReport','MainController@ExportReport','ExportReport');
-Route::post('/ExportReportSelection','MainController@ExportReportSelection','ExportReportSelection');
 Route::post('/ExportReportBranches','MainController@ExportReportBranches','ExportReportBranches');
 Route::post('/ExportReportBranchesSelection','MainController@ExportReportBranchesSelection','ExportReportBranchesSelection');
-Route::get('/GetDownload', 'MainController@GetDownload')->name('GetDownload');
+
 
 
 

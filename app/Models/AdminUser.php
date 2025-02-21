@@ -13,4 +13,8 @@ class AdminUser extends Authenticatable
         "email",
         "password"
     ];
+
+    public static function factory(int $int)
+    {
+    }
 }
