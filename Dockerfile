@@ -3,7 +3,7 @@ FROM php:7.4-cli
 
 # Установка зависимостей и расширений
 RUN apt-get update && apt-get install -y libzip-dev libpq-dev
-RUN docker-php-ext-install zip pdo pdo_pgsql gd
+RUN docker-php-ext-install zip pdo pdo_pgsql gd libpng
 
 # Установка Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
