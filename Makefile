@@ -1,10 +1,5 @@
-PORT ?= 8000
-
 start:
-	PHP_CLI_SERVER_WORKERS=5 php -S 0.0.0.0:$(PORT) -t public
-
-lint:
-	XDEBUG_MODE=off vendor/bin/phpcs --standard=PSR12 public/index.php
+    php artisan serve --port=8000
 
 setup:
 	composer install
