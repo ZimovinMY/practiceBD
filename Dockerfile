@@ -13,10 +13,10 @@ RUN apt-get update && apt-get install -y \
     libwebp-dev \
     libxpm-dev \
     pkg-config \
+    postgresql postgresql-contrib \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-xpm \
     && docker-php-ext-install gd zip pdo pdo_pgsql \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-
 
 # Установка Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
@@ -32,8 +32,13 @@ COPY . .
 # Установка зависимостей Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Открываем порт (не обязательно для Render, но полезно)
+# Создание базы данных и пользователя PostgreSQL
+RUN service postgresql start && \
+    su - postgres -c "psql -c \"CREATE USER postgres WITH PASSWORD '12345';\"" && \
+    su - postgres -c "psql -c \"CREATE DATABASE reestr OWNER postgres;\""
+
+# Открываем порт
 EXPOSE 8000
 
-# Команда для запуска приложения на Render.com
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Запуск PostgreSQL и Laravel при старте контейнера
+CMD service postgresql start && php artisan serve --host=0.0.0.0 --port=8000
